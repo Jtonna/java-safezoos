@@ -32,6 +32,9 @@ public class UserRoles extends Auditable implements Serializable {
         this.role = role;
     }
 
+    public UserRoles() {
+    }
+
     // generated getters and setters
     public User getUser() {
         return user;
