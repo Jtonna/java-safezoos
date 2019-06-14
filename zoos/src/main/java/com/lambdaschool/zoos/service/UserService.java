@@ -1,6 +1,6 @@
-package com.lambdaschool.authenticatedusers.service;
+package com.lambdaschool.zoos.service;
 
-import com.lambdaschool.authenticatedusers.model.User;
+import com.lambdaschool.zoos.model.User;
 
 import java.util.List;
 
