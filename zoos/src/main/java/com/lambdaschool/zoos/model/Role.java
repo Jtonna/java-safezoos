@@ -33,7 +33,7 @@ public class Role extends Auditable{
     }
 
     // getters and setters
-    
+
     public long getRoleid() {
         return roleid;
     }
