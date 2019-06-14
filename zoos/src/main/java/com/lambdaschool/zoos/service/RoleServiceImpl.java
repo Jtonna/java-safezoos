@@ -1,7 +1,7 @@
-package com.lambdaschool.authenticatedusers.service;
+package com.lambdaschool.zoos.service;
 
-import com.lambdaschool.authenticatedusers.model.Role;
-import com.lambdaschool.authenticatedusers.repository.RoleRepository;
+import com.lambdaschool.zoos.model.Role;
+import com.lambdaschool.zoos.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,10 +1,9 @@
-package com.lambdaschool.authenticatedusers.service;
+package com.lambdaschool.zoos.service;
 
-import com.lambdaschool.authenticatedusers.model.Quote;
-import com.lambdaschool.authenticatedusers.model.User;
-import com.lambdaschool.authenticatedusers.model.UserRoles;
-import com.lambdaschool.authenticatedusers.repository.RoleRepository;
-import com.lambdaschool.authenticatedusers.repository.UserRepository;
+import com.lambdaschool.zoos.model.User;
+import com.lambdaschool.zoos.model.UserRoles;
+import com.lambdaschool.zoos.repository.RoleRepository;
+import com.lambdaschool.zoos.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -81,11 +80,6 @@ public class UserServiceImpl implements UserDetailsService, UserService
         }
         newUser.setUserRoles(newRoles);
 
-        for (Quote q : user.getQuotes())
-        {
-            newUser.getQuotes().add( new Quote(q.getQuote(), newUser));
-        }
-
         return userrepos.save(newUser);
     }
 
@@ -124,13 +118,6 @@ public class UserServiceImpl implements UserDetailsService, UserService
                     }
                 }
 
-                if (user.getQuotes().size() > 0)
-                {
-                    for (Quote q : user.getQuotes())
-                    {
-                        currentUser.getQuotes().add( new Quote(q.getQuote(), currentUser));
-                    }
-                }
                 return userrepos.save(currentUser);
             }
             else
