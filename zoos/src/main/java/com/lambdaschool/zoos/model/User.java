@@ -1,6 +1,10 @@
 package com.lambdaschool.zoos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ public class User extends Auditable {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
 
     // generated shit
@@ -76,13 +81,23 @@ public class User extends Auditable {
         this.username = username;
     }
 
+    // manually edited
+    // we encrypt it here.
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public void setPasswordNoEncrypt(String password)
+    {
         this.password = password;
     }
+
+    // more generated code
 
     public List<UserRoles> getUserRoles() {
         return userRoles;
@@ -90,5 +105,21 @@ public class User extends Auditable {
 
     public void setUserRoles(List<UserRoles> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    // Another manual thing
+    // theres diff types of simplegrantedauth but this one works ery well for what we want to do
+    // what we want to do is make a list of the type simplegrantedauthority which is built into spring security
+    // this is the thing that allows our roles to truly work.
+    // this is what spring wants
+
+    public List<SimpleGrantedAuthority> getAuthority(){
+        List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
+        for (UserRoles r : this.userRoles)
+        {
+            String myRole = "ROLE_" + r.getRole().getName().toUpperCase();
+            rtnList.add(new SimpleGrantedAuthority(myRole));
+        }
+        return rtnList;
     }
 }
